@@ -22,37 +22,51 @@ import CadastrarFuncionarioPage from './pages/funcionario/CadastrarFuncionarioPa
 import MostrarFuncionarioPage from './pages/funcionario/MostrarFuncionarioPage';
 import EditarFuncionarioPage from './pages/funcionario/EditarFuncionarioPage';
 
+import LoginPage from './pages/login/LoginPage';
+import AuthContextProvider from './context/AuthContext';
+import RoutesPrivate from './RoutePrivate';
+
 export default function Routes() {
 
     return (
         <BrowserRouter>
+
             <Switch>
-                <Route path="/" exact component={Home}></Route>
-                
-                
-                <Route path="/clientes" exact component={ListarClientePage}></Route>
-                <Route path="/cliente/novo" exact component={CadastrarClientePage}></Route>
-                <Route path="/cliente/mostrar/:id" exact component={MostrarClientePage}></Route>
-                <Route path="/cliente/editar/:id" exact component={EditarClientePage}></Route>
 
-                <Route path="/transportadoras" exact component={ListarTransportadoraPage}></Route>
-                <Route path="/transportadora/novo" exact component={CadastrarTransportadoraPage}></Route>
-                <Route path="/transportadora/mostrar/:id" exact  component={MostrarTransportadoraPage}></Route>
-                <Route path="/transportadora/editar/:id" exact component={EditarTransportadoraPage}></Route>
 
-                <Route path="/fornecedores" exact component={ListarFornecedorPage}></Route>
-                <Route path="/fornecedor/novo" exact component={CadastrarFornecedorPage}></Route>
-                <Route path="/fornecedor/mostrar/:id" exact  component={MostrarFornecedorPage}></Route>
-                <Route path="/fornecedor/editar/:id" exact component={EditarFornecedorPage}></Route>
+                <Route path="/login" exact component={LoginPage}></Route>
 
-                <Route path="/funcionarios" exact component={ListarFuncionarioPage}></Route>
-                <Route path="/funcionario/novo" exact component={CadastrarFuncionarioPage}></Route>
-                <Route path="/funcionario/mostrar/:id" exact  component={MostrarFuncionarioPage}></Route>
-                <Route path="/funcionario/editar/:id" exact component={EditarFuncionarioPage}></Route>
+                <RoutesPrivate>
+                    <Route path="/" exact component={Home}></Route>
+
+                    <Route path="/clientes" exact component={ListarClientePage}></Route>
+                    <Route path="/cliente/novo" exact component={CadastrarClientePage}></Route>
+                    <Route path="/cliente/mostrar/:id" exact component={MostrarClientePage}></Route>
+                    <Route path="/cliente/editar/:id" exact component={EditarClientePage}></Route>
+
+                    <Route path="/transportadoras" exact component={ListarTransportadoraPage}></Route>
+                    <Route path="/transportadora/novo" exact component={CadastrarTransportadoraPage}></Route>
+                    <Route path="/transportadora/mostrar/:id" exact component={MostrarTransportadoraPage}></Route>
+                    <Route path="/transportadora/editar/:id" exact component={EditarTransportadoraPage}></Route>
+
+                    <Route path="/fornecedores" exact component={ListarFornecedorPage}></Route>
+                    <Route path="/fornecedor/novo" exact component={CadastrarFornecedorPage}></Route>
+                    <Route path="/fornecedor/mostrar/:id" exact component={MostrarFornecedorPage}></Route>
+                    <Route path="/fornecedor/editar/:id" exact component={EditarFornecedorPage}></Route>
+
+                    <Route path="/funcionarios" exact component={ListarFuncionarioPage}></Route>
+                    <Route path="/funcionario/novo" exact component={CadastrarFuncionarioPage}></Route>
+                    <Route path="/funcionario/mostrar/:id" exact component={MostrarFuncionarioPage}></Route>
+                    <Route path="/funcionario/editar/:id" exact component={EditarFuncionarioPage}></Route>
+                </RoutesPrivate>
+
+
+
 
                 <Route path="*" component={() => <h1>Page not found</h1>} />
-                
+
             </Switch>
+
         </BrowserRouter>
     )
 }

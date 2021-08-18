@@ -7,6 +7,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useMenu } from "../context/SideMenuContext";
 import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TopBar() {
     const classes = useStyles();
+    const history = useHistory();
     const [openSideMenu, setOpenSideMenu] = useMenu();
 
     return (
@@ -56,7 +58,10 @@ function TopBar() {
                     </Badge>
                 </IconButton>
 
-                <Button variant="outlined" className={classes.leaveButton} startIcon={<ExitToAppIcon />}>Sair</Button>
+                <Button variant="outlined" className={classes.leaveButton} startIcon={<ExitToAppIcon />} onClick={() => {
+                    localStorage.removeItem('token')
+                    history.push("/")
+                }}>Sair</Button>
             </Toolbar>
         </AppBar>
     );
