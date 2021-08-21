@@ -9,7 +9,6 @@ import language from '../../config/tableTranslation';
 import { Button } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     optionsButtons: {
@@ -40,50 +39,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function ListarClientePage() {
+function ListarTransportadoraPage() {
     const classes = useStyles();
     const history = useHistory();
-    const [clientes, setClientes] = useState([]);
-    const columns = ["Nome", "Tipo", "Telefone", "Celular", "Email", "Contato", "Ações"];
+    const [bancos, setBancos] = useState([]);
+    const columns = ["Nome", "Saldo", "Ações"];
     const data = [];
 
-    function handleOnClickShowButton(event, id) {
-        history.push("/cliente/mostrar/"+id)
-    }
-
     function handleOnClickEditButton(event, id) {
-        history.push("/cliente/editar/"+id)
+        history.push("/banco/editar/"+id)
     }
 
 
 
     useEffect(() => {
-        api.get('/clientes')
+        api.get('/bancos')
             .then((response) => {
-                response.data['data'].forEach(element => {
-                    if(element['tipoCliente'] === "pf"){
-                        element['tipoCliente'] = "Pessoa Física"
-                    }
-                    else if(element['tipoCliente'] === "pj"){
-                        element['tipoCliente'] = "Pessoa Jurídica"
-                    }
+                response.data.forEach(element => {
                     var array = [
                         element['nome'],
-                        element['tipoCliente'],
-                        element['telefone'],
-                        element['celular'],
-                        element['email'],
-                        element['contato'],
+                        element['saldo'],
                         <>
-                            <SearchIcon className={classes.optionsButtons} onClick={(event) => handleOnClickShowButton(event, element['id'])} />
                             <EditIcon className={classes.optionsButtons} onClick={(event) => handleOnClickEditButton(event, element['id'])} />
                         </>
                         ]
                     data.push(array);
 
                 });
-                console.log(data);
-                setClientes(data)
+                setBancos(data)
 
             })
     }, []);
@@ -92,13 +75,13 @@ function ListarClientePage() {
         <>
             <TopBar />
             <SideMenu>
-                {clientes.map((cliente, index) => (
-                    <h4 key={index} >{cliente.nome}</h4>
+                {bancos.map((banco, index) => (
+                    <h4 key={index} >{banco.nome}</h4>
                 ))}
-                <Button onClick={() => history.push("/cliente/novo")} variant="outlined" startIcon={<AddIcon />} className={classes.saveButton}>Adicionar</Button>
+                <Button onClick={() => history.push("/banco/novo")} variant="outlined" startIcon={<AddIcon />} className={classes.saveButton}>Adicionar</Button>
                 <MUIDataTable
-                    title={"Lista de Clientes"}
-                    data={clientes}
+                    title={"Lista de Bancos"}
+                    data={bancos}
                     columns={columns}
                     options={language}
                 />
@@ -108,4 +91,4 @@ function ListarClientePage() {
     );
 }
 
-export default ListarClientePage;
+export default ListarTransportadoraPage;

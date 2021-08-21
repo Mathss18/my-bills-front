@@ -2,28 +2,26 @@ import React from 'react';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from '../src/pages/Home';
-import ListarClientePage from './pages/cliente/ListarClientePage';
-import CadastrarClientePage from './pages/cliente/CadastrarClientePage';
-import EditarClientePage from './pages/cliente/EditarClientePage';
-import MostrarClientePage from './pages/cliente/MostrarClientePage';
+import ListarClientePage from './pages/conta/ListarClientePage';
+import CadastrarClientePage from './pages/conta/CadastrarClientePage';
+import EditarClientePage from './pages/conta/EditarClientePage';
+import MostrarClientePage from './pages/conta/MostrarClientePage';
 
-import ListarTransportadoraPage from './pages/transportadora/ListarTransportadoraPage';
-import CadastrarTransportadoraPage from './pages/transportadora/CadastrarTransportadoraPage';
-import MostrarTransportadoraPage from './pages/transportadora/MostrarTransportadoraPage';
-import EditarTransportadoraPage from './pages/transportadora/EditarTransportadoraPage';
+import ListarTransportadoraPage from './pages/banco/ListarTransportadoraPage';
+import CadastrarTransportadoraPage from './pages/banco/CadastrarTransportadoraPage';
+import EditarTransportadoraPage from './pages/banco/EditarTransportadoraPage';
 
-import ListarFornecedorPage from './pages/fornecedor/ListarFornecedorPage';
-import CadastrarFornecedorPage from './pages/fornecedor/CadastrarFornecedorPage';
-import MostrarFornecedorPage from './pages/fornecedor/MostrarFornecedorPage';
-import EditarFornecedorPage from './pages/fornecedor/EditarFornecedorPage';
+import ListarFornecedorPage from './pages/categoria/ListarFornecedorPage';
+import CadastrarFornecedorPage from './pages/categoria/CadastrarFornecedorPage';
+import MostrarFornecedorPage from './pages/categoria/MostrarFornecedorPage';
+import EditarFornecedorPage from './pages/categoria/EditarFornecedorPage';
 
-import ListarFuncionarioPage from './pages/funcionario/ListarFuncionarioPage';
-import CadastrarFuncionarioPage from './pages/funcionario/CadastrarFuncionarioPage';
-import MostrarFuncionarioPage from './pages/funcionario/MostrarFuncionarioPage';
-import EditarFuncionarioPage from './pages/funcionario/EditarFuncionarioPage';
+// import ListarFuncionarioPage from './pages/funcionario/ListarFuncionarioPage';
+// import CadastrarFuncionarioPage from './pages/funcionario/CadastrarFuncionarioPage';
+// import MostrarFuncionarioPage from './pages/funcionario/MostrarFuncionarioPage';
+// import EditarFuncionarioPage from './pages/funcionario/EditarFuncionarioPage';
 
 import LoginPage from './pages/login/LoginPage';
-import AuthContextProvider from './context/AuthContext';
 import RoutesPrivate from './RoutePrivate';
 
 export default function Routes() {
@@ -37,27 +35,26 @@ export default function Routes() {
                 <Route path="/login" exact component={LoginPage}></Route>
 
                 <RoutesPrivate>
-                    <Route path="/" exact component={Home}></Route>
+                    <RoutesPrivate path="/" exact component={Home}></RoutesPrivate>
 
-                    <Route path="/clientes" exact component={ListarClientePage}></Route>
-                    <Route path="/cliente/novo" exact component={CadastrarClientePage}></Route>
-                    <Route path="/cliente/mostrar/:id" exact component={MostrarClientePage}></Route>
-                    <Route path="/cliente/editar/:id" exact component={EditarClientePage}></Route>
+                    <Route path="/contas" exact component={ListarClientePage}></Route>
+                    <Route path="/conta/novo" exact component={CadastrarClientePage}></Route>
+                    <Route path="/conta/mostrar/:id" exact component={MostrarClientePage}></Route>
+                    <Route path="/conta/editar/:id" exact component={EditarClientePage}></Route>
 
-                    <Route path="/transportadoras" exact component={ListarTransportadoraPage}></Route>
-                    <Route path="/transportadora/novo" exact component={CadastrarTransportadoraPage}></Route>
-                    <Route path="/transportadora/mostrar/:id" exact component={MostrarTransportadoraPage}></Route>
-                    <Route path="/transportadora/editar/:id" exact component={EditarTransportadoraPage}></Route>
+                    <Route path="/bancos" exact component={ListarTransportadoraPage}></Route>
+                    <Route path="/banco/novo" exact component={CadastrarTransportadoraPage}></Route>
+                    <Route path="/banco/editar/:id" exact component={EditarTransportadoraPage}></Route>
 
-                    <Route path="/fornecedores" exact component={ListarFornecedorPage}></Route>
-                    <Route path="/fornecedor/novo" exact component={CadastrarFornecedorPage}></Route>
-                    <Route path="/fornecedor/mostrar/:id" exact component={MostrarFornecedorPage}></Route>
-                    <Route path="/fornecedor/editar/:id" exact component={EditarFornecedorPage}></Route>
+                    <Route path="/categorias" exact component={ListarFornecedorPage}></Route>
+                    <Route path="/categoria/novo" exact component={CadastrarFornecedorPage}></Route>
+                    <Route path="/categoria/mostrar/:id" exact component={MostrarFornecedorPage}></Route>
+                    <Route path="/categoria/editar/:id" exact component={EditarFornecedorPage}></Route>
 
-                    <Route path="/funcionarios" exact component={ListarFuncionarioPage}></Route>
+                    {/* <Route path="/funcionarios" exact component={ListarFuncionarioPage}></Route>
                     <Route path="/funcionario/novo" exact component={CadastrarFuncionarioPage}></Route>
                     <Route path="/funcionario/mostrar/:id" exact component={MostrarFuncionarioPage}></Route>
-                    <Route path="/funcionario/editar/:id" exact component={EditarFuncionarioPage}></Route>
+                    <Route path="/funcionario/editar/:id" exact component={EditarFuncionarioPage}></Route> */}
                 </RoutesPrivate>
 
 

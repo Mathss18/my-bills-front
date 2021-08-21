@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 //import { useAuth } from "./context/AuthContext";
 
-const RoutesPrivate = ({ Component, ...rest }) => {
+function RoutesPrivate ({ Component, ...rest }) {
     //const [token, setToken] = useAuth();
+    console.log(Component);
+    console.log(rest)
     const [token, setToken] = useState(localStorage.getItem('token'));
 
     useEffect(() => {

@@ -16,7 +16,6 @@ import clsx from "clsx";
 import { useCadastroMenu } from "../context/SideMenuCadastroContext";
 import { useMenu } from "../context/SideMenuContext";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import DraftsIcon from "@material-ui/icons/Drafts";
 import SendIcon from "@material-ui/icons/Send";
@@ -24,7 +23,9 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import WorkIcon from '@material-ui/icons/Work';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 
 const drawerWidth = 240;
 
@@ -128,39 +129,31 @@ function SideMenu({ children }) {
                     </ListItem>
 
                     <Collapse in={openCadastroList} timeout="auto" unmountOnExit>
+
                         <List onClick={() => history.push("/clientes")} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
-                                    <PeopleAltIcon />
+                                    <DateRangeIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Clientes" />
+                                <ListItemText primary="Calendario" />
                             </ListItem>
                         </List>
 
-                        <List onClick={() => history.push("/fornecedores")} disablePadding>
+                        <List onClick={() => history.push("/bancos")} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
-                                    <ShoppingBasketIcon />
+                                    <AccountBalanceIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Fornecedores" />
+                                <ListItemText primary="Bancos" />
                             </ListItem>
                         </List>
 
-                        <List onClick={() => history.push("/transportadoras")} disablePadding>
+                        <List onClick={() => history.push("/categorias")} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
-                                    <LocalShippingIcon />
+                                    <LocationOnIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Transportadoras" />
-                            </ListItem>
-                        </List>
-
-                        <List onClick={() => history.push("/funcionarios")} disablePadding>
-                            <ListItem button className={classes.nested}>
-                                <ListItemIcon>
-                                    <WorkIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Funcionarios" />
+                                <ListItemText primary="Categorias" />
                             </ListItem>
                         </List>
 
