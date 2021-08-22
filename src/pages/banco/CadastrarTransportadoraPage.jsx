@@ -4,7 +4,7 @@ import TopBar from "../../components/TopBar";
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, TextField, Select, MenuItem, FormControl, InputLabel, Divider, Button, CardMedia } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import api from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -64,7 +64,7 @@ const initialValues = {
     nome: '',
     saldo: '',
     logo: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    id_usuario: 1,
+    id_usuario: (parseJwt(localStorage.getItem('token'))).id,
 }
 
 

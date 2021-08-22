@@ -6,10 +6,13 @@ import { api, parseJwt } from '../../services/api';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Swal from 'sweetalert2';
 
 const initialValues = {
+    nome: '',
     email: '',
     senha: '',
+    repete_senha: ''
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function LoginPage() {
+function CadastreSePage() {
     const classes = useStyles();
     const history = useHistory();
     const [values, setValues] = useState(initialValues);
@@ -64,14 +67,28 @@ function LoginPage() {
     function handleOnSubmit(event) {
         event.preventDefault();
 
-         api.post('/login', values)
+         api.post('/usuarios', values)
         .then(response => {
-            console.log(response.data.token);
-            localStorage.setItem('token',response.data.token);
-            history.push("/")
+            Swal.fire({
+                title: 'Usuário cadastrado com sucesso!',
+                html: 'Redirecionando...',
+                position: 'center',
+                icon: 'success',
+                timer: 1000,
+                timerProgressBar: true,
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    history.push("/")
+                }
+            })
         })
         .catch(error => {
-            alert(error.response.data.mensagem)
+            Swal.fire({
+                title: 'Erro ao cadastrar usuário!',
+                html: error.response.data.mensagem,
+                position: 'center',
+                icon: 'error',
+            })
         })
         
     }
@@ -82,16 +99,24 @@ function LoginPage() {
                 <br />
                 <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', }}>
                     <LocationOnIcon />
-                    <h3>Login</h3>
+                    <h3>Cadastre-se</h3>
                 </div>
                 <Grid container spacing={2}>
 
                     <Grid item xs={12}>
-                        <TextField variant="outlined" label="Email" fullWidth className={classes.input} name="email" value={values.email} onChange={handleOnChange} />
+                        <TextField variant="outlined" label="Nome" fullWidth className={classes.input} name="nome" value={values.nome} onChange={handleOnChange} />
+
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField variant="outlined" label="Email" fullWidth className={classes.input}  name="email" value={values.email} onChange={handleOnChange} />
 
                     </Grid>
                     <Grid item xs={12}>
                         <TextField type="password" variant="outlined" label="Senha" fullWidth className={classes.input}  name="senha" value={values.senha} onChange={handleOnChange} />
+
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField type="password" variant="outlined" label="RepeteSenha" fullWidth className={classes.input}  name="repete_senha" value={values.repete_senha} onChange={handleOnChange} />
 
                     </Grid>
 
@@ -99,10 +124,10 @@ function LoginPage() {
 
                 <Grid container spacing={0}>
                     <Grid item xs={6}>
-                        <Button type="submit" variant="outlined" startIcon={<CheckIcon />} className={classes.saveButton}>Entrar</Button>
+                        <Button type="submit" variant="outlined" startIcon={<CheckIcon />} className={classes.saveButton}>Cadastrar</Button>
                     </Grid>
                     <Grid container justifyContent="flex-end" xs={6}>
-                        <Button className={classes.signButton} onClick={() => history.push('/cadastreSe')}>Cadastre-se</Button>
+                        <Button className={classes.signButton} onClick={() => history.push('/login')}>Voltar</Button>
                     </Grid>
                 </Grid>
             </form>
@@ -111,4 +136,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage
+export default CadastreSePage

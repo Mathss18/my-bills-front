@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import api from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +63,7 @@ const initialValues = {
     nome: '',
     saldo: '',
     logo: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    id_usuario: 1,
+    id_usuario: (parseJwt(localStorage.getItem('token'))).id,
 }
 
 function EditarTransportadoraPage() {

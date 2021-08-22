@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@fullcalendar/daygrid": "^5.9.0",
+    "@fullcalendar/interaction": "^5.9.0",
     "@fullcalendar/react": "^5.9.0",
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
@@ -12,6 +13,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "chart.js": "^3.4.1",
+    "fullcalendar": "^5.9.0",
     "mui-datatables": "^3.7.7",
     "react": "^17.0.2",
     "react-chartjs-2": "^3.0.3",

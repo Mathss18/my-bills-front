@@ -130,7 +130,7 @@ function SideMenu({ children }) {
 
                     <Collapse in={openCadastroList} timeout="auto" unmountOnExit>
 
-                        <List onClick={() => history.push("/clientes")} disablePadding>
+                        <List onClick={() => history.push("/contas")} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <DateRangeIcon />

@@ -4,14 +4,15 @@ import TopBar from "../../components/TopBar";
 import MUIDataTable from "mui-datatables";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import api from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import language from '../../config/tableTranslation';
 import { Button } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import SearchIcon from '@material-ui/icons/Search';
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from "@fullcalendar/interaction";
 
 const useStyles = makeStyles((theme) => ({
     optionsButtons: {
@@ -58,15 +59,14 @@ function ListarClientePage() {
 
 
     useEffect(() => {
-
-        const eventos = [
-            { title: 'Pagar Vet', date: '2021-08-20', color: 'red' },
-            { title: 'Comprar Roups', date: '2021-08-21' }
-        ];
-        setEventos(eventos)
-
-
-
+        api.get('/categorias')
+            .then((response) => {
+                const eventos = [];
+                response.data.forEach(element => {
+                    eventos.push(element)
+                });
+                setEventos(eventos)
+            })
     }, []);
 
     return (
@@ -74,16 +74,10 @@ function ListarClientePage() {
             <TopBar />
             <SideMenu>
                 <FullCalendar
-                    header={{
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth, listWeek'
-                    }}
-                    plugins={[dayGridPlugin]}
+                    plugins={[ dayGridPlugin, interactionPlugin ]}
                     initialView="dayGridMonth"
                     events={eventos}
                     dateClick={handleDateClick}
-                    eventClick={handleDateClick}
                 />
             </SideMenu>
 

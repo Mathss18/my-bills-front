@@ -5,7 +5,6 @@ import Home from '../src/pages/Home';
 import ListarClientePage from './pages/conta/ListarClientePage';
 import CadastrarClientePage from './pages/conta/CadastrarClientePage';
 import EditarClientePage from './pages/conta/EditarClientePage';
-import MostrarClientePage from './pages/conta/MostrarClientePage';
 
 import ListarTransportadoraPage from './pages/banco/ListarTransportadoraPage';
 import CadastrarTransportadoraPage from './pages/banco/CadastrarTransportadoraPage';
@@ -13,7 +12,6 @@ import EditarTransportadoraPage from './pages/banco/EditarTransportadoraPage';
 
 import ListarFornecedorPage from './pages/categoria/ListarFornecedorPage';
 import CadastrarFornecedorPage from './pages/categoria/CadastrarFornecedorPage';
-import MostrarFornecedorPage from './pages/categoria/MostrarFornecedorPage';
 import EditarFornecedorPage from './pages/categoria/EditarFornecedorPage';
 
 // import ListarFuncionarioPage from './pages/funcionario/ListarFuncionarioPage';
@@ -22,6 +20,7 @@ import EditarFornecedorPage from './pages/categoria/EditarFornecedorPage';
 // import EditarFuncionarioPage from './pages/funcionario/EditarFuncionarioPage';
 
 import LoginPage from './pages/login/LoginPage';
+import CadastreSePagePage from './pages/login/CadastreSePage';
 import RoutesPrivate from './RoutePrivate';
 
 export default function Routes() {
@@ -33,13 +32,13 @@ export default function Routes() {
 
 
                 <Route path="/login" exact component={LoginPage}></Route>
+                <Route path="/cadastreSe" exact component={CadastreSePagePage}></Route>
 
                 <RoutesPrivate>
                     <RoutesPrivate path="/" exact component={Home}></RoutesPrivate>
 
                     <Route path="/contas" exact component={ListarClientePage}></Route>
                     <Route path="/conta/novo" exact component={CadastrarClientePage}></Route>
-                    <Route path="/conta/mostrar/:id" exact component={MostrarClientePage}></Route>
                     <Route path="/conta/editar/:id" exact component={EditarClientePage}></Route>
 
                     <Route path="/bancos" exact component={ListarTransportadoraPage}></Route>
@@ -48,7 +47,6 @@ export default function Routes() {
 
                     <Route path="/categorias" exact component={ListarFornecedorPage}></Route>
                     <Route path="/categoria/novo" exact component={CadastrarFornecedorPage}></Route>
-                    <Route path="/categoria/mostrar/:id" exact component={MostrarFornecedorPage}></Route>
                     <Route path="/categoria/editar/:id" exact component={EditarFornecedorPage}></Route>
 
                     {/* <Route path="/funcionarios" exact component={ListarFuncionarioPage}></Route>

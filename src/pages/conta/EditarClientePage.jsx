@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import api from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({

@@ -4,7 +4,7 @@ import TopBar from "../../components/TopBar";
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, TextField, Select, MenuItem, FormControl, InputLabel, Divider, Button, CardMedia } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import api from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import AssignmentIcon from '@material-ui/icons/Assignment';

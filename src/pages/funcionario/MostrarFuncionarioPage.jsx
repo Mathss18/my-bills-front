@@ -8,7 +8,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import api from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import MouseIcon from '@material-ui/icons/Mouse';
 import PrintIcon from '@material-ui/icons/Print';

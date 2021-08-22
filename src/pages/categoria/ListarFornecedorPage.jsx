@@ -4,12 +4,11 @@ import TopBar from "../../components/TopBar";
 import MUIDataTable from "mui-datatables";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import api from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import language from '../../config/tableTranslation';
 import { Button } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     optionsButtons: {
@@ -43,47 +42,31 @@ const useStyles = makeStyles((theme) => ({
 function ListarFornecedorPage() {
     const classes = useStyles();
     const history = useHistory();
-    const [fornecedores, setFornecedores] = useState([]);
-    const columns = ["Nome", "Tipo", "Telefone", "Celular", "Email", "Contato", "Ações"];
+    const [categorias, setCategorias] = useState([]);
+    const columns = ["Nome", "Cor", "Ações"];
     const data = [];
 
-    function handleOnClickShowButton(event, id) {
-        history.push("/fornecedor/mostrar/"+id)
-    }
-
     function handleOnClickEditButton(event, id) {
-        history.push("/fornecedor/editar/"+id)
+        history.push("/categoria/editar/"+id)
     }
 
 
 
     useEffect(() => {
-        api.get('/fornecedores')
+        api.get('/categorias')
             .then((response) => {
-                response.data['data'].forEach(element => {
-                    if(element['tipoFornecedor'] === "pf"){
-                        element['tipoFornecedor'] = "Pessoa Física"
-                    }
-                    else if(element['tipoFornecedor'] === "pj"){
-                        element['tipoFornecedor'] = "Pessoa Jurídica"
-                    }
+                response.data.forEach(element => {
                     var array = [
-                        element['nome'],
-                        element['tipoFornecedor'],
-                        element['telefone'],
-                        element['celular'],
-                        element['email'],
-                        element['contato'],
+                        element['descricao'],
+                        element['cor'],
                         <>
-                            <SearchIcon className={classes.optionsButtons} onClick={(event) => handleOnClickShowButton(event, element['id'])} />
                             <EditIcon className={classes.optionsButtons} onClick={(event) => handleOnClickEditButton(event, element['id'])} />
                         </>
                         ]
                     data.push(array);
 
                 });
-                console.log(data);
-                setFornecedores(data)
+                setCategorias(data)
 
             })
     }, []);
@@ -92,13 +75,10 @@ function ListarFornecedorPage() {
         <>
             <TopBar />
             <SideMenu>
-                {fornecedores.map((fornecedor, index) => (
-                    <h4 key={index} >{fornecedor.nome}</h4>
-                ))}
-                <Button onClick={() => history.push("/fornecedor/novo")} variant="outlined" startIcon={<AddIcon />} className={classes.saveButton}>Adicionar</Button>
+                <Button onClick={() => history.push("/categoria/novo")} variant="outlined" startIcon={<AddIcon />} className={classes.saveButton}>Adicionar</Button>
                 <MUIDataTable
-                    title={"Lista de Fornecedors"}
-                    data={fornecedores}
+                    title={"Lista de Categorias"}
+                    data={categorias}
                     columns={columns}
                     options={language}
                 />

@@ -3,6 +3,7 @@ import SideMenu from '../components/SideMenu';
 import TopBar from '../components/TopBar';
 import DashboardCard from '../components/DashboardCard';
 import DashboardChart from '../components/DashboardChart';
+import { Grid } from '@material-ui/core';
 
 
 
@@ -40,9 +41,9 @@ function Home() {
             <SideMenu>
 
                 <div className={classes.card_conteiner}>
-                    <DashboardCard type='green' />
-                    <DashboardCard type='red' />
-                    <DashboardCard type='blue' />
+                    <Grid container xs={6} justifyContent="center"><DashboardCard type='green' /></Grid>
+                    <Grid container xs={6} justifyContent="center"><DashboardCard type='red' /></Grid>
+                    <Grid container xs={12} justifyContent="center"><DashboardCard type='blue' /></Grid>
                 </div>
 
                 <div className={classes.chart_conteiner}>
