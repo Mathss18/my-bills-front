@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, TextField, Divider, Button } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
-import { api, parseJwt } from '../../services/api';
+import { api } from '../../services/api';
 import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const initialValues = {

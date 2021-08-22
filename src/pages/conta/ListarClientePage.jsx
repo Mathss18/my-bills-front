@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
 import SideMenu from "../../components/SideMenu";
 import TopBar from "../../components/TopBar";
-import MUIDataTable from "mui-datatables";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import { api, parseJwt } from '../../services/api';
-import language from '../../config/tableTranslation';
-import { Button } from "@material-ui/core";
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import SearchIcon from '@material-ui/icons/Search';
+import { api } from '../../services/api';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({
     optionsButtons: {
@@ -48,8 +43,29 @@ function ListarClientePage() {
     const history = useHistory();
     const [eventos, setEventos] = useState([])
 
+
     function handleDateClick(event) {
         console.log(event);
+        Swal.fire({
+            title: 'Qual o tipo da transação?',
+            icon: 'question',
+            showDenyButton: true,
+            showCancelButton: true,
+            cancelButtonText: `Sair`,
+            confirmButtonText: `Conta a Receber`,
+            denyButtonText: `Conta a Pagar`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                
+            } else if (result.isDenied) {
+                
+            }
+          })
+    }
+
+    function handleEventClick(event) {
+        console.log(event.event._def);
     }
 
     function handleOnClickEditButton(event, id) {
@@ -59,13 +75,14 @@ function ListarClientePage() {
 
 
     useEffect(() => {
-        api.get('/categorias')
+        api.get('/contas')
             .then((response) => {
                 const eventos = [];
                 response.data.forEach(element => {
                     eventos.push(element)
                 });
                 setEventos(eventos)
+                console.log(eventos);
             })
     }, []);
 
@@ -74,10 +91,11 @@ function ListarClientePage() {
             <TopBar />
             <SideMenu>
                 <FullCalendar
-                    plugins={[ dayGridPlugin, interactionPlugin ]}
+                    plugins={[dayGridPlugin, interactionPlugin]}
                     initialView="dayGridMonth"
                     events={eventos}
                     dateClick={handleDateClick}
+                    eventClick={handleEventClick}
                 />
             </SideMenu>
 
