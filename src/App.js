@@ -1,6 +1,8 @@
 import Routes from "./routes";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import SideMenuContextProvider from "./context/SideMenuContext";
+import CalendarContextProvider from "./context/CalendarContext";
+import InfoContextProvider from "./context/InfoContext";
 
 function App() {
   const theme = createTheme({
@@ -24,9 +26,13 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-        <SideMenuContextProvider>
-          <Routes />
-        </SideMenuContextProvider>
+      <SideMenuContextProvider>
+        <CalendarContextProvider>
+          <InfoContextProvider>
+            <Routes />
+          </InfoContextProvider>
+        </CalendarContextProvider>
+      </SideMenuContextProvider>
     </ThemeProvider>
   );
 }

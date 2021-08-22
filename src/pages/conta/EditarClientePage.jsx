@@ -197,7 +197,7 @@ function EditarClientePage() {
                             <Grid item xs={3}>
                                 <FormControl variant="outlined" fullWidth required className={classes.input} name="situacao">
                                     <InputLabel>Situação</InputLabel>
-                                    <Select label="Situação" value='' name="situacao" value={values.situacao} onChange={handleOnChange}>
+                                    <Select label="Situação" name="situacao" value={values.situacao} onChange={handleOnChange}>
                                         <MenuItem value={1}>Ativo</MenuItem>
                                         <MenuItem value={0}>Inativo</MenuItem>
                                     </Select>

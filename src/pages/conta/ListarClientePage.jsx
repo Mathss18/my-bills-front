@@ -3,11 +3,14 @@ import SideMenu from "../../components/SideMenu";
 import TopBar from "../../components/TopBar";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import { api } from '../../services/api';
+import { api, parseJwt } from '../../services/api';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import Swal from 'sweetalert2';
+import CadastrarClientePage from "./CadastrarClientePage";
+import { useCalendar } from "../../context/CalendarContext";
+import { useInfo } from "../../context/InfoContext";
 
 const useStyles = makeStyles((theme) => ({
     optionsButtons: {
@@ -37,11 +40,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const initialValues = {
+    title: '',
+    start: '',
+    end: null,
+    color: '',
+    description: '',
+    dataBaixa: '',
+    tipo: '',
+    situacao: '',
+    id_categoria: '',
+    id_banco: '',
+    id_usuario: (parseJwt(localStorage.getItem('token'))).id,
+}
 
 function ListarClientePage() {
-    const classes = useStyles();
     const history = useHistory();
     const [eventos, setEventos] = useState([])
+    const [open, setOpen] = useCalendar();
+    const [info, setInfo] = useInfo(initialValues)
 
 
     function handleDateClick(event) {
@@ -54,24 +71,67 @@ function ListarClientePage() {
             cancelButtonText: `Sair`,
             confirmButtonText: `Conta a Receber`,
             denyButtonText: `Conta a Pagar`,
-          }).then((result) => {
+        }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                
+                zerar();
+
+                //initialValues.start = event.dateStr;
+                setInfo(info => {
+                    return {
+                        ...info,
+                        start: event.dateStr,
+                        tipo: 1,
+                        situacao: 0,
+                    }
+                })
+
+                setOpen(true)
             } else if (result.isDenied) {
-                
+                setInfo(info => {
+                    return {
+                        ...info,
+                        start: event.dateStr,
+                        tipo: 0,
+                        situacao: 0,
+                    }
+                })
             }
-          })
+        })
     }
 
     function handleEventClick(event) {
-        console.log(event.event._def);
+        console.log(event.event.id);
+        setInfo(info => {
+            return {
+                ...info,
+                title: event.event.title,
+                start: event.event.startStr,
+                color: event.event.backgroundColor,
+                description: event.event.extendedProps.description,
+                dataBaixa: event.event.extendedProps.dataBaixa,
+                tipo: event.event.extendedProps.tipo,
+                situacao: event.event.extendedProps.situacao,
+                id_categoria: event.event.extendedProps.id_categoria,
+                id_banco: event.event.extendedProps.id_banco
+            }
+        })
+        setOpen(true)
     }
 
-    function handleOnClickEditButton(event, id) {
-        history.push("/cliente/editar/" + id)
+    function zerar() {
+        initialValues.title = '';
+        initialValues.start = '';
+        initialValues.color = '';
+        initialValues.description = '';
+        initialValues.dataBaixa = '';
+        initialValues.tipo = '';
+        initialValues.situacao = '';
+        initialValues.id_categoria = '';
+        initialValues.id_banco = '';
+        setInfo(initialValues)
+        console.log(info);
     }
-
 
 
     useEffect(() => {
@@ -97,6 +157,7 @@ function ListarClientePage() {
                     dateClick={handleDateClick}
                     eventClick={handleEventClick}
                 />
+                <CadastrarClientePage isOpen={open} info={info} />
             </SideMenu>
 
         </>

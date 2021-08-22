@@ -2,14 +2,12 @@ import { useState } from 'react';
 import SideMenu from "../../components/SideMenu";
 import TopBar from "../../components/TopBar";
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, TextField, Select, MenuItem, FormControl, InputLabel, Divider, Button, CardMedia } from '@material-ui/core';
+import { Grid, TextField, Divider, Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { api, parseJwt } from '../../services/api';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Swal from 'sweetalert2';
 
 

@@ -1,251 +1,177 @@
-import { useState } from 'react';
-import SideMenu from "../../components/SideMenu";
-import TopBar from "../../components/TopBar";
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, TextField, Select, MenuItem, FormControl, InputLabel, Divider, Button } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { makeStyles, Button, Dialog, AppBar, Toolbar, IconButton, Typography, Grid, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { api, parseJwt } from '../../services/api';
-import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
-
-
+import Slide from '@material-ui/core/Slide';
+import { useCalendar } from "../../context/CalendarContext";
+import { useInfo } from "../../context/InfoContext";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        //flexGrow: 1,
+    appBar: {
+        position: 'relative',
     },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
+    title: {
+        marginLeft: theme.spacing(2),
+        flex: 1,
     },
-    input: {
-        backgroundColor: '#fff',
-        // Estilo do helperText
-        '& p': {
-            backgroundColor: "#fafafa",
-            margin: 0,
-            paddingLeft: theme.spacing(1)
-        },
-    },
-    saveButton: {
-        backgroundColor: theme.palette.primary.main,
-        color: '#fff',
-        marginTop: theme.spacing(2),
-        marginRight: theme.spacing(2),
-        '&:hover': {
-            backgroundColor: '#fff',
-            color: theme.palette.primary.main,
-        },
-    },
-    cancelButton: {
-        backgroundColor: theme.palette.error.main,
-        color: '#fff',
-        marginTop: theme.spacing(2),
-        marginRight: theme.spacing(2),
-        '&:hover': {
-            backgroundColor: '#fff',
-            color: theme.palette.error.main,
-        },
-    },
+    formDiv: {
+        margin: theme.spacing(2),
+    }
 }));
 
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 const initialValues = {
-    tipoCliente: '',
+    title: '',
+    start: '',
+    end: null,
+    color: '',
+    description: '',
+    dataBaixa: '',
+    tipo: '',
     situacao: '',
-    tipoContribuinte: '',
-    inscricaoEstadual: '',
-    nome: '',
-    cpfCnpj: '',
-    email: '',
-    contato: '',
-    rua: '',
-    cidade: '',
-    numero: '',
-    cep: '',
-    bairro: '',
-    estado: '',
-    telefone: '',
-    celular: '',
-    codigoMunicipio: '',
-
-
+    id_categoria: '',
+    id_banco: '',
+    id_usuario: (parseJwt(localStorage.getItem('token'))).id,
 }
 
-
-function CadastrarClientePage() {
+export default function CadastrarClientePage() {
     const classes = useStyles();
-    const history = useHistory();
-    const [values, setValues] = useState(initialValues);
+    const [open, setOpen] = useCalendar();
+    const [info, setInfo] = useInfo()
+    const [categorias, setCategorias] = useState([]);
+    const [bancos, setBancos] = useState([]);
+
+    function handleClose() {
+        setOpen(false);
+    }
+
+    useEffect(() => {
+        api.get('/categorias')
+            .then((response) => {
+                setCategorias(response.data);
+            })
+        api.get('/bancos')
+            .then((response) => {
+                setBancos(response.data);
+            })
+
+    }, []);
 
     function handleOnChange(event) {
         const { name, value } = event.target;
-        // const name = event.target.name;
-        // const value = event.target.value;
-        setValues({ ...values, [name]: value });
-        console.log(values);
+        setInfo({ ...info, [name]: value });
     }
 
     function handleOnSubmit(event) {
         event.preventDefault();
-        console.log(values);
-        api.post('/cliente', values)
-        .then(response => console.log(response));
+        console.log(info);
+        api.post('/contas', info)
+            .then((response) => {
+                console.log(response);
+            })
+
+    }
+
+    function handleColorChange(event) {
+        handleOnChange(event);
+        const id = event.target.value
+
+        api.get('/categorias/' + id)
+            .then((response) => {
+                setInfo(info => {
+                    return {
+                        ...info,
+                        color: response.data.cor
+                    }
+                })
+            })
+
     }
 
     return (
-        <>
-            <TopBar />
+        <div>
+            <Dialog fullScreen open={open} TransitionComponent={Transition}>
+                <form onSubmit={handleOnSubmit}>
+                    <AppBar className={classes.appBar}>
+                        <Toolbar>
+                            <IconButton edge="start" color="inherit" aria-label="close" onClick={handleClose}>
+                                <CloseIcon />
+                            </IconButton>
+                            <Typography variant="h6" className={classes.title}>
+                                Cadastrar nova conta
+                            </Typography>
+                            <Button color="inherit" type="submit">
+                                Salvar
+                            </Button>
+                        </Toolbar>
+                    </AppBar>
+                    <div className={classes.formDiv}>
 
-            <SideMenu>
-                <div>
-                    <Divider />
-                    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', }}>
-                        <AssignmentIcon />
-                        <h3>Dados Pessoais</h3>
-                    </div>
-                    <form onSubmit={handleOnSubmit}>
                         <Grid container spacing={2}>
 
                             <Grid item xs={3}>
-                                <FormControl variant="outlined" fullWidth required className={classes.input} name="tipoCliente">
-                                    <InputLabel>Tipo de Cliente</InputLabel>
-                                    <Select label="Tipo de Cliente" name="tipoCliente" value={values.tipoCliente} onChange={handleOnChange}>
-                                        <MenuItem value={"pf"}>Pessoa Física</MenuItem>
-                                        <MenuItem value={"pj"}>Pessoa Jurídica</MenuItem>
-                                    </Select>
-                                </FormControl>
+                                <TextField variant="outlined" fullWidth label="Título" className={classes.input} value={info.title} name="title" onChange={handleOnChange} readonly />
+                            </Grid>
+
+                            <Grid item xs={3}>
+                                <TextField variant="outlined" type="date" fullWidth label="Data" className={classes.input} value={info.start} name="start" onChange={handleOnChange} />
+                            </Grid>
+
+                            <Grid item xs={3}>
+                                <TextField variant="outlined" fullWidth label="Descrição" className={classes.input} value={info.description} name="description" onChange={handleOnChange} />
                             </Grid>
 
                             <Grid item xs={3}>
                                 <FormControl variant="outlined" fullWidth required className={classes.input} name="situacao">
                                     <InputLabel>Situação</InputLabel>
-                                    <Select label="Situação" value='' name="situacao" value={values.situacao} onChange={handleOnChange}>
-                                        <MenuItem value={1}>Ativo</MenuItem>
-                                        <MenuItem value={0}>Inativo</MenuItem>
+                                    <Select label="Situação" name="situacao" value={info.situacao} onChange={handleOnChange}>
+                                        <MenuItem value={0}>Pendente</MenuItem>
+                                        <MenuItem value={1}>Finalizado</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
 
                             <Grid item xs={3}>
-                                <FormControl variant="outlined" fullWidth required className={classes.input} name="tipoContribuinte">
-                                    <InputLabel>Tipo de contribuinte</InputLabel>
-                                    <Select label="Tipo de contribuinte" name="tipoContribuinte" value={values.tipoContribuinte} onChange={handleOnChange}>
-                                        <MenuItem value={1}>Contribuinte ICMS</MenuItem>
-                                        <MenuItem value={2}>Contribuinte ISENTO</MenuItem>
-                                        <MenuItem value={9}>Não Contribuinte</MenuItem>
+                                <FormControl variant="outlined" fullWidth required className={classes.input} name="categoria">
+                                    <InputLabel>Categorias</InputLabel>
+                                    <Select label="Categorias" name="id_categoria" value={info.id_categoria} onChange={handleColorChange}>
+                                        {categorias.map((categoria) => {
+                                            return (
+                                                <MenuItem key={categoria.id} value={categoria.id}>{categoria.descricao}</MenuItem>
+                                            )
+                                        })}
                                     </Select>
                                 </FormControl>
                             </Grid>
 
                             <Grid item xs={3}>
-                                <TextField variant="outlined" fullWidth label="Inscrição Estadual" helperText="Digite ISENTO caso não haja Inscrição Estadual" className={classes.input} value={values.inscricaoEstadual} name="inscricaoEstadual" onChange={handleOnChange} />
+                                <TextField variant="outlined" type="color" fullWidth label="Cor da categoria" className={classes.input} value={info.color} name="color" onChange={handleOnChange} disabled />
                             </Grid>
 
                             <Grid item xs={3}>
-                                <TextField variant="outlined" label="Nome/Razão social" fullWidth className={classes.input} value={values.nome} name="nome" onChange={handleOnChange} />
-                            </Grid>
-
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="CPF/CNPJ" fullWidth className={classes.input} value={values.cpfCnpj} name="cpfCnpj" onChange={handleOnChange} />
-                            </Grid>
-
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Email" fullWidth className={classes.input} value={values.email} name="email" onChange={handleOnChange} />
-                            </Grid>
-
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Contato" fullWidth className={classes.input} value={values.contato} name="contato" onChange={handleOnChange} />
-                            </Grid>
-
-                        </Grid>
-                        <br />
-                        <Divider />
-                        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', }}>
-                            <LocationOnIcon />
-                            <h3>Endereço</h3>
-                        </div>
-                        <Grid container spacing={2}>
-
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="CEP" fullWidth className={classes.input} value={values.cep} name="cep" onChange={handleOnChange} />
-
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Rua" fullWidth className={classes.input} value={values.rua} name="rua" onChange={handleOnChange} />
-
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Número" fullWidth className={classes.input} value={values.numero} name="numero" onChange={handleOnChange} />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Cidade" fullWidth className={classes.input} value={values.cidade} name="cidade" onChange={handleOnChange} />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Bairro" fullWidth className={classes.input} value={values.bairro} name="bairro" onChange={handleOnChange} />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <FormControl variant="outlined" fullWidth required className={classes.input} >
-                                    <InputLabel>Estado</InputLabel>
-                                    <Select label="Estado" name="estado" value={values.estado} onChange={handleOnChange} >
-                                        <MenuItem value={"AC"}>Acre</MenuItem>
-                                        <MenuItem value={"AL"}>Alagoas</MenuItem>
-                                        <MenuItem value={"AP"}>Amapá</MenuItem>
-                                        <MenuItem value={"AM"}>Amazonas</MenuItem>
-                                        <MenuItem value={"BA"}>Bahia</MenuItem>
-                                        <MenuItem value={"CE"}>Ceará</MenuItem>
-                                        <MenuItem value={"DF"}>Distrito Federal</MenuItem>
-                                        <MenuItem value={"ES"}>Espírito Santo</MenuItem>
-                                        <MenuItem value={"GO"}>Goiás</MenuItem>
-                                        <MenuItem value={"MA"}>Maranhão</MenuItem>
-                                        <MenuItem value={"MT"}>Mato Grosso</MenuItem>
-                                        <MenuItem value={"MS"}>Mato Grosso do Sul</MenuItem>
-                                        <MenuItem value={"MG"}>Minas Gerais</MenuItem>
-                                        <MenuItem value={"PA"}>Pará</MenuItem>
-                                        <MenuItem value={"PB"}>Paraíba</MenuItem>
-                                        <MenuItem value={"PR"}>Paraná</MenuItem>
-                                        <MenuItem value={"PE"}>Pernambuco</MenuItem>
-                                        <MenuItem value={"PI"}>Piauí</MenuItem>
-                                        <MenuItem value={"RJ"}>Rio de Janeiro</MenuItem>
-                                        <MenuItem value={"RN"}>Rio Grande do Norte</MenuItem>
-                                        <MenuItem value={"RS"}>Rio Grande do Sul</MenuItem>
-                                        <MenuItem value={"RO"}>Rondônia</MenuItem>
-                                        <MenuItem value={"RR"}>Roraima</MenuItem>
-                                        <MenuItem value={"SC"}>Santa Catarina</MenuItem>
-                                        <MenuItem value={"SP"}>São Paulo</MenuItem>
-                                        <MenuItem value={"SE"}>Sergipe</MenuItem>
-                                        <MenuItem value={"TO"}>Tocantins</MenuItem>
+                                <FormControl variant="outlined" fullWidth required className={classes.input} name="banco">
+                                    <InputLabel>Banco</InputLabel>
+                                    <Select label="Banco" name="id_banco" value={info.id_banco} onChange={handleOnChange}>
+                                        {bancos.map((banco) => {
+                                            return (
+                                                <MenuItem key={banco.id} value={banco.id}>{banco.nome}</MenuItem>
+                                            )
+                                        })}
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Telefone" fullWidth className={classes.input} value={values.telefone} name="telefone" onChange={handleOnChange} />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Celular" fullWidth className={classes.input} value={values.celular} name="celular" onChange={handleOnChange} />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <TextField variant="outlined" label="Código do Municipio" fullWidth className={classes.input} value={values.codigoMunicipio} name="codigoMunicipio" onChange={handleOnChange} />
-                            </Grid>
 
                         </Grid>
 
-                        <Grid container spacing={0}>
-                            <Grid item>
-                                <Button type="submit" variant="outlined" startIcon={<CheckIcon />} className={classes.saveButton}>Salvar</Button>
-                            </Grid>
-                            <Grid item>
-                                <Button onClick={() => history.push("/clientes")} variant="outlined" startIcon={<CloseIcon />} className={classes.cancelButton}>Cancelar</Button>
-                            </Grid>
-                        </Grid>
-                    </form>
 
-                </div>
-            </SideMenu>
-        </>
+                    </div>
+                </form>
+            </Dialog>
+        </div>
     );
 }
-
-export default CadastrarClientePage
