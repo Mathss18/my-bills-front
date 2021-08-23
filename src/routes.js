@@ -14,6 +14,8 @@ import ListarFornecedorPage from './pages/categoria/ListarFornecedorPage';
 import CadastrarFornecedorPage from './pages/categoria/CadastrarFornecedorPage';
 import EditarFornecedorPage from './pages/categoria/EditarFornecedorPage';
 
+import RelatorioPage from './pages/relatorio/RelatorioPage';
+
 // import ListarFuncionarioPage from './pages/funcionario/ListarFuncionarioPage';
 // import CadastrarFuncionarioPage from './pages/funcionario/CadastrarFuncionarioPage';
 // import MostrarFuncionarioPage from './pages/funcionario/MostrarFuncionarioPage';
@@ -48,6 +50,8 @@ export default function Routes() {
                     <Route path="/categorias" exact component={ListarFornecedorPage}></Route>
                     <Route path="/categoria/novo" exact component={CadastrarFornecedorPage}></Route>
                     <Route path="/categoria/editar/:id" exact component={EditarFornecedorPage}></Route>
+                    
+                    <Route path="/relatorio" exact component={RelatorioPage}></Route>
 
                     {/* <Route path="/funcionarios" exact component={ListarFuncionarioPage}></Route>
                     <Route path="/funcionario/novo" exact component={CadastrarFuncionarioPage}></Route>

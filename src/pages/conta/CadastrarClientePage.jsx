@@ -5,6 +5,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { useCalendar } from "../../context/CalendarContext";
 import { useInfo } from "../../context/InfoContext";
+import Swal from 'sweetalert2';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -16,6 +18,15 @@ const useStyles = makeStyles((theme) => ({
     },
     formDiv: {
         margin: theme.spacing(2),
+    },
+    deletar: {
+        marginRight: theme.spacing(2),
+        // borderColor: 'red',
+        color: 'white',
+        backgroundColor: '#b31217',
+        "&:hover": {
+            borderColor: '#b31217',
+        }
     }
 }));
 
@@ -33,6 +44,7 @@ const initialValues = {
     description: '',
     dataBaixa: '',
     tipo: '',
+    valor: '',
     situacao: '',
     id_categoria: '',
     id_banco: '',
@@ -45,9 +57,83 @@ export default function CadastrarClientePage() {
     const [info, setInfo] = useInfo()
     const [categorias, setCategorias] = useState([]);
     const [bancos, setBancos] = useState([]);
+    const history = useHistory();
 
     function handleClose() {
         setOpen(false);
+    }
+
+    function handleDelete(event) {
+        const id = info.id;
+            api.delete('/contas/'+id)
+                .then((response) => {
+                    console.log(response);
+                    Swal.fire({
+                        title: 'Removido com sucesso!',
+                        html: 'Redirecionando...',
+                        position: 'center',
+                        icon: 'success',
+                        timer: 1000,
+                        timerProgressBar: true,
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            history.push("/contas")
+                        }
+                    })
+                    setOpen(false);
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        title: 'Erro ao deletar!',
+                        html: error.response.data.mensagem,
+                        position: 'center',
+                        icon: 'error',
+                        timer: 10000,
+                        timerProgressBar: true,
+                    })
+                });
+    }
+
+    function handleEdit(event){
+        event.preventDefault();
+        const id = info.id;
+        api.put('/contas/'+id, info)
+            .then((response) => {
+                console.log(response);
+                Swal.fire({
+                    title: 'Editado com sucesso!',
+                    html: 'Redirecionando...',
+                    position: 'center',
+                    icon: 'success',
+                    timer: 1000,
+                    timerProgressBar: true,
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        history.push("/contas")
+                    }
+                })
+                setOpen(false);
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: 'Erro ao editar!',
+                    html: error.response.data.mensagem,
+                    position: 'center',
+                    icon: 'error',
+                    timer: 10000,
+                    timerProgressBar: true,
+                })
+            });
+    }
+
+    const renderRemoveAccessButton = () => {
+        if (info.id) {
+            return <><Button type="button" variant="outlined" onClick={handleDelete} className={classes.deletar}>Deletar</Button>
+            <Button type="button" color="inherit" variant="outlined" onClick={handleEdit}>Editar</Button></>
+        }
+        else {
+            return <Button type="submit" color="inherit" variant="outlined">Salvar</Button>
+        }
     }
 
     useEffect(() => {
@@ -59,7 +145,7 @@ export default function CadastrarClientePage() {
             .then((response) => {
                 setBancos(response.data);
             })
-
+        
     }, []);
 
     function handleOnChange(event) {
@@ -69,11 +155,33 @@ export default function CadastrarClientePage() {
 
     function handleOnSubmit(event) {
         event.preventDefault();
-        console.log(info);
         api.post('/contas', info)
             .then((response) => {
                 console.log(response);
+                Swal.fire({
+                    title: 'Cadastrado com sucesso!',
+                    html: 'Redirecionando...',
+                    position: 'center',
+                    icon: 'success',
+                    timer: 1000,
+                    timerProgressBar: true,
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        history.push("/contas")
+                    }
+                })
+                setOpen(false);
             })
+            .catch((error) => {
+                Swal.fire({
+                    title: 'Erro ao cadastrar!',
+                    html: error.response.data.mensagem,
+                    position: 'center',
+                    icon: 'error',
+                    timer: 10000,
+                    timerProgressBar: true,
+                })
+            });
 
     }
 
@@ -93,6 +201,14 @@ export default function CadastrarClientePage() {
 
     }
 
+    let tipo = '';
+
+    if (info.id) {
+        tipo = 'Editar';
+    }else{
+        tipo = 'Cadastrar';
+    }
+
     return (
         <div>
             <Dialog fullScreen open={open} TransitionComponent={Transition}>
@@ -103,30 +219,32 @@ export default function CadastrarClientePage() {
                                 <CloseIcon />
                             </IconButton>
                             <Typography variant="h6" className={classes.title}>
-                                Cadastrar nova conta
+                                {tipo} Conta
                             </Typography>
-                            <Button color="inherit" type="submit">
-                                Salvar
-                            </Button>
+                            {renderRemoveAccessButton()}
                         </Toolbar>
                     </AppBar>
                     <div className={classes.formDiv}>
 
                         <Grid container spacing={2}>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={3}>
                                 <TextField variant="outlined" fullWidth label="Título" className={classes.input} value={info.title} name="title" onChange={handleOnChange} readonly />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={3}>
                                 <TextField variant="outlined" type="date" fullWidth label="Data" className={classes.input} value={info.start} name="start" onChange={handleOnChange} />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={3}>
+                                <TextField variant="outlined" type="number" fullWidth label="Valor" className={classes.input} value={info.valor} name="valor" onChange={handleOnChange} />
+                            </Grid>
+
+                            <Grid item xs={12} sm={3}>
                                 <TextField variant="outlined" fullWidth label="Descrição" className={classes.input} value={info.description} name="description" onChange={handleOnChange} />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={3}>
                                 <FormControl variant="outlined" fullWidth required className={classes.input} name="situacao">
                                     <InputLabel>Situação</InputLabel>
                                     <Select label="Situação" name="situacao" value={info.situacao} onChange={handleOnChange}>
@@ -136,7 +254,7 @@ export default function CadastrarClientePage() {
                                 </FormControl>
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={3}>
                                 <FormControl variant="outlined" fullWidth required className={classes.input} name="categoria">
                                     <InputLabel>Categorias</InputLabel>
                                     <Select label="Categorias" name="id_categoria" value={info.id_categoria} onChange={handleColorChange}>
@@ -149,11 +267,11 @@ export default function CadastrarClientePage() {
                                 </FormControl>
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={3}>
                                 <TextField variant="outlined" type="color" fullWidth label="Cor da categoria" className={classes.input} value={info.color} name="color" onChange={handleOnChange} disabled />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={3}>
                                 <FormControl variant="outlined" fullWidth required className={classes.input} name="banco">
                                     <InputLabel>Banco</InputLabel>
                                     <Select label="Banco" name="id_banco" value={info.id_banco} onChange={handleOnChange}>

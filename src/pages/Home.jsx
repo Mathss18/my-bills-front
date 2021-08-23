@@ -22,12 +22,11 @@ const useStyles = makeStyles((theme) => ({
     chart_conteiner: {
         display: 'flex',
         boxSizing: 'border-box',
-        width: '1030px',
-        height: '550px',
         marginLeft: theme.spacing(2),
         padding: theme.spacing(2),
         borderRadius: '10px',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        width: '100%',
     },
 }));
 
@@ -41,14 +40,24 @@ function Home() {
             <SideMenu>
 
                 <div className={classes.card_conteiner}>
-                    <Grid container xs={6} justifyContent="center"><DashboardCard type='green' /></Grid>
-                    <Grid container xs={6} justifyContent="center"><DashboardCard type='red' /></Grid>
+                    <Grid container xs={12} sm={6} justifyContent="center"><DashboardCard type='green' /></Grid>
+                    <Grid container xs={12} sm={6} justifyContent="center"><DashboardCard type='red' /></Grid>
                     <Grid container xs={12} justifyContent="center"><DashboardCard type='blue' /></Grid>
                 </div>
 
-                <div className={classes.chart_conteiner}>
-                    <DashboardChart/>
-                </div>
+                <Grid container>
+                    <Grid container xs={12} sm={6} justifyContent="center">
+                        <div className={classes.chart_conteiner}>
+                            <DashboardChart type='receber' />
+                        </div>
+                    </Grid>
+                    
+                    <Grid container xs={12} sm={6} justifyContent="center">
+                        <div className={classes.chart_conteiner}>
+                            <DashboardChart type='pagar' />
+                        </div>
+                    </Grid>
+                </Grid>
 
             </SideMenu>
 

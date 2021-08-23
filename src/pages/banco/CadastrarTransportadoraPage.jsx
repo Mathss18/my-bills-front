@@ -109,42 +109,21 @@ function CadastrarTransportadoraPage() {
                     <form onSubmit={handleOnSubmit}>
                         <Grid container spacing={2}>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField variant="outlined" fullWidth label="Nome do banco" className={classes.input} value={values.nome} name="nome" onChange={handleOnChange} />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField variant="outlined" fullWidth label="Saldo Inicial" className={classes.input} value={values.saldo} name="saldo" onChange={handleOnChange} />
                             </Grid>
-
-                            <Grid item>
-                                <Button variant="contained" component="label" startIcon={<PhotoCamera />} className={classes.saveButton}>Carregar Imagem
-                                    <input
-                                        name="logo"
-                                        hidden
-                                        accept="image/*"
-                                        className={classes.input}
-                                        type="file"
-                                        onChange={handleCapture}
-                                    />
-                                </Button>
-
-                            </Grid>
                         </Grid>
 
                         <Grid container spacing={2}>
-                            <Grid container spacing={2}>
-                                <Grid item>
-                                    <CardMedia className={classes.image} component="img" alt="Imagem Funcionario" image={values.logo} title="Imagem Funcionario" />
-                                </Grid>
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={2}>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="flex-start">
                                 <Button type="submit" variant="outlined" startIcon={<CheckIcon />} className={classes.saveButton}>Salvar</Button>
                             </Grid>
-                            <Grid item>
+                            <Grid container xs={12} sm={4}></Grid>
+                            <Grid container xs={12} sm={4} justifyContent="flex-end">
                                 <Button onClick={() => history.push("/bancos")} variant="outlined" startIcon={<CloseIcon />} className={classes.cancelButton}>Cancelar</Button>
                             </Grid>
                         </Grid>
