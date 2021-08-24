@@ -159,10 +159,10 @@ function ListarClientePage() {
                 const eventos = [];
                 response.data.forEach(element => {
                     if (element['tipo'] === 1) {
-                        element['title'] = element['title'] + ' - ' + 'receber'
+                        element['title'] = element['title'] + ' - ' + 'Receber'
                     }
                     else if (element['tipo'] === 0) {
-                        element['title'] = element['title'] + ' - ' + 'pagar'
+                        element['title'] = element['title'] + ' - ' + 'Pagar'
                     }
                     eventos.push(element)
                 });

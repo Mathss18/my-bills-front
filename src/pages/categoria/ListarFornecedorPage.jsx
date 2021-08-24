@@ -47,22 +47,29 @@ function ListarFornecedorPage() {
     const data = [];
 
     function handleOnClickEditButton(event, id) {
-        history.push("/categoria/editar/"+id)
+        history.push("/categoria/editar/" + id)
     }
 
 
 
     useEffect(() => {
-        api.get('/categorias/usuarios/'+getUserId())
+        api.get('/categorias/usuarios/' + getUserId())
             .then((response) => {
                 response.data.forEach(element => {
                     var array = [
                         element['descricao'],
-                        element['cor'],
+                        <div style={
+                            {
+                                backgroundColor: element['cor'],
+                                width: '30px',
+                                height: '30px',
+                                borderRadius: '20px'
+                            }
+                        }></div>,
                         <>
                             <EditIcon className={classes.optionsButtons} onClick={(event) => handleOnClickEditButton(event, element['id'])} />
                         </>
-                        ]
+                    ]
                     data.push(array);
 
                 });

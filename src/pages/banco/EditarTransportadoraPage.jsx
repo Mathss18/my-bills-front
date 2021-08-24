@@ -118,7 +118,7 @@ function EditarTransportadoraPage() {
             .catch((error) => {
                 Swal.fire({
                     title: 'Erro ao atualizar!',
-                    html: error.response.data.mensagem,
+                    html: 'Erro no banco de dados',
                     position: 'top-end',
                     icon: 'error',
                     timer: 10000,
@@ -154,7 +154,7 @@ function EditarTransportadoraPage() {
                     .catch((error) => {
                         Swal.fire({
                             title: 'Erro ao excluir!',
-                            html: error.response.data.mensagem,
+                            html: 'Erro no banco de dados',
                             position: 'top-end',
                             icon: 'error',
                             timer: 10000,
