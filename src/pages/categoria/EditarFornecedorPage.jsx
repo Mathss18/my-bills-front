@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
     descricao: '',
     cor: '',
-    id_usuario: (parseJwt(localStorage.getItem('token'))).id,
+    id_usuario: 1,
 }
 
 function EditarFornecedorPage() {

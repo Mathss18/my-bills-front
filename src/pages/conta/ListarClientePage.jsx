@@ -51,7 +51,7 @@ const initialValues = {
     situacao: '',
     id_categoria: '',
     id_banco: '',
-    id_usuario: (parseJwt(localStorage.getItem('token'))).id,
+    id_usuario: 1,
 }
 
 function ListarClientePage() {

@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
     descricao: '',
     cor: '#000000',
-    id_usuario: (parseJwt(localStorage.getItem('token'))).id,
+    id_usuario: 1,
 }
 
 
