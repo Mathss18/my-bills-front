@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '10px'
     },
     saveButton: {
+        width: '100%',
         backgroundColor: theme.palette.primary.main,
         color: '#fff',
         marginTop: theme.spacing(2),
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     cancelButton: {
+        width: '100%',
         backgroundColor: theme.palette.error.main,
         color: '#fff',
         marginTop: theme.spacing(2),
@@ -121,20 +123,21 @@ function CadastrarFornecedorPage() {
                     <form onSubmit={handleOnSubmit}>
                         <Grid container spacing={2}>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField variant="outlined" fullWidth label="Nome da categoria" className={classes.input} value={values.descricao} name="descricao" onChange={handleOnChange} />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField type="color" variant="outlined" fullWidth label="Cor da categoria" className={classes.input} value={values.cor} name="cor" onChange={handleOnChange} />
                             </Grid>
                         </Grid>
 
                         <Grid container spacing={2}>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="flex-start">
                                 <Button type="submit" variant="outlined" startIcon={<CheckIcon />} className={classes.saveButton}>Salvar</Button>
                             </Grid>
-                            <Grid item>
+                            <Grid container xs={12} sm={4}></Grid>
+                            <Grid container xs={12} sm={4} justifyContent="flex-end">
                                 <Button onClick={() => history.push("/categorias")} variant="outlined" startIcon={<CloseIcon />} className={classes.cancelButton}>Cancelar</Button>
                             </Grid>
                         </Grid>

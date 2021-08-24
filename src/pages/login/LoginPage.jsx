@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { api } from '../../services/api';
 import CheckIcon from '@material-ui/icons/Check';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Swal from 'sweetalert2';
 
 const initialValues = {
     email: '',
@@ -65,12 +66,17 @@ function LoginPage() {
 
          api.post('/login', values)
         .then(response => {
-            console.log(response.data.token);
+            console.log(response.data.token)
             localStorage.setItem('token',response.data.token);
             history.push("/")
         })
         .catch(error => {
-            alert(error.response.data.mensagem)
+            Swal.fire({
+                title: 'Erro ao logar usuário!',
+                html: 'erro no login',
+                position: 'center',
+                icon: 'error',
+            })
         })
         
     }

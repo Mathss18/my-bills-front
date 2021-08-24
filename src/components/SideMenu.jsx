@@ -3,6 +3,7 @@ import {
     Drawer,
     IconButton,
     List,
+    Grid,
     Divider,
     ListItem,
     ListItemIcon,
@@ -17,7 +18,8 @@ import { useCadastroMenu } from "../context/SideMenuCadastroContext";
 import { useMenu } from "../context/SideMenuContext";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
-import DraftsIcon from "@material-ui/icons/Drafts";
+import HomeIcon from "@material-ui/icons/Home";
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -26,6 +28,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+import logo1 from '../assets/images/my-bills-logo.png'
 
 const drawerWidth = 240;
 
@@ -54,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: "flex-end",
+        justifyContent: "center",
     },
     content: {
         flexGrow: 1,
@@ -85,7 +88,9 @@ function SideMenu({ children }) {
 
     // Função que controla se Side Menu esta aberto ou fechado
     const handleDrawerClose = () => {
-        setOpenSideMenu(!openSideMenu);
+        if (window.screen.width < 500){
+            setOpenSideMenu(!openSideMenu)
+        }
     };
 
     // Função que controla se Lista de cadastros esta aberto ou fechado
@@ -104,22 +109,25 @@ function SideMenu({ children }) {
                     paper: classes.drawerPaper,
                 }}
             >
-                <div className={classes.drawerHeader}>
-                    <Link to='/'>[LOGO]</Link>
-                    <IconButton onClick={handleDrawerClose}>
+                <Grid container className={classes.drawerHeader}>
+                    <Link to='/'><img src={logo1} width="50px"/></Link>
+                    <Grid container justifyContent="flex-end" xs={6}><IconButton onClick={handleDrawerClose}>
                         <ChevronLeftIcon />
-                    </IconButton>
-                </div>
+                    </IconButton></Grid>
+                </Grid> 
                 <Divider />
                 <List
                     component="nav"
                     aria-labelledby="nested-list-subheader"
-                    subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
-                            Nested List Items
-                        </ListSubheader>
-                    }
                 >
+
+                    <ListItem button onClick={() => {history.push("/"); handleDrawerClose();}}>
+                        <ListItemIcon>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Home" />
+                    </ListItem>
+
                     <ListItem button onClick={handleOpenCadastroList}>
                         <ListItemIcon>
                             <AddBoxIcon />
@@ -130,7 +138,7 @@ function SideMenu({ children }) {
 
                     <Collapse in={openCadastroList} timeout="auto" unmountOnExit>
 
-                        <List onClick={() => history.push("/contas")} disablePadding>
+                        <List onClick={() => {history.push("/contas"); handleDrawerClose();}} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <DateRangeIcon />
@@ -139,7 +147,7 @@ function SideMenu({ children }) {
                             </ListItem>
                         </List>
 
-                        <List onClick={() => history.push("/bancos")} disablePadding>
+                        <List onClick={() => {history.push("/bancos"); handleDrawerClose();}} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <AccountBalanceIcon />
@@ -148,7 +156,7 @@ function SideMenu({ children }) {
                             </ListItem>
                         </List>
 
-                        <List onClick={() => history.push("/categorias")} disablePadding>
+                        <List onClick={() => {history.push("/categorias"); handleDrawerClose();}} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <LocationOnIcon />
@@ -159,18 +167,11 @@ function SideMenu({ children }) {
 
                     </Collapse>
 
-                    <ListItem button>
+                    <ListItem button onClick={() => {history.push("/relatorio"); handleDrawerClose();}}>
                         <ListItemIcon>
-                            <SendIcon />
+                            <AssignmentIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Sent mail" />
-                    </ListItem>
-
-                    <ListItem button>
-                        <ListItemIcon>
-                            <DraftsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Drafts" />
+                        <ListItemText primary="Relatório" />
                     </ListItem>
                 </List>
                 <Divider />

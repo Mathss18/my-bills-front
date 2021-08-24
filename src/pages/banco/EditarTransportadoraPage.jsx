@@ -38,20 +38,20 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     saveButton: {
+        width: '100%',
         backgroundColor: theme.palette.primary.main,
         color: '#fff',
-        marginTop: theme.spacing(2),
-        marginRight: theme.spacing(2),
+        margin: theme.spacing(2),
         '&:hover': {
             backgroundColor: '#fff',
             color: theme.palette.primary.main,
         },
     },
     cancelButton: {
+        width: '100%',
         backgroundColor: theme.palette.error.main,
         color: '#fff',
-        marginTop: theme.spacing(2),
-        marginRight: theme.spacing(2),
+        margin: theme.spacing(2),
         '&:hover': {
             backgroundColor: '#fff',
             color: theme.palette.error.main,
@@ -186,45 +186,23 @@ function EditarTransportadoraPage() {
                     <form onSubmit={handleOnSubmit}>
                         <Grid container spacing={2}>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField variant="outlined" fullWidth label="Nome do banco" className={classes.input} value={values.nome} name="nome" onChange={handleOnChange} />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField variant="outlined" fullWidth label="Saldo Inicial" className={classes.input} value={values.saldo} name="saldo" onChange={handleOnChange} />
                             </Grid>
-
-                            <Grid item>
-                                <Button variant="contained" component="label" startIcon={<PhotoCamera />} className={classes.saveButton}>Carregar Imagem
-                                    <input
-                                        name="logo"
-                                        hidden
-                                        accept="image/*"
-                                        className={classes.input}
-                                        type="file"
-                                        onChange={handleCapture}
-                                    />
-                                </Button>
-
-                            </Grid>
                         </Grid>
 
                         <Grid container spacing={2}>
-                            <Grid container spacing={2}>
-                                <Grid item>
-                                    <CardMedia className={classes.image} component="img" alt="Imagem Funcionario" image={values.logo} title="Imagem Funcionario" />
-                                </Grid>
-                            </Grid>
-                        </Grid>
-
-                        <Grid container spacing={2}>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="flex-start">
                                 <Button type="submit" variant="outlined" startIcon={<CheckIcon />} className={classes.saveButton}>Salvar</Button>
                             </Grid>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="center">
                                 <Button variant="outlined" startIcon={<DeleteForeverIcon />} className={classes.cancelButton} onClick={handleDelete} >Excluir</Button>
                             </Grid>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="flex-end">
                                 <Button onClick={() => history.push("/bancos")} variant="outlined" startIcon={<CloseIcon />} className={classes.cancelButton}>Cancelar</Button>
                             </Grid>
                         </Grid>

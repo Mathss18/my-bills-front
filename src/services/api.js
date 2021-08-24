@@ -6,6 +6,10 @@ export const api = axios.create({
 });
 
 export const parseJwt = (token) => {
+  if(!token){
+    return { id: '' }
+  }
+
   var base64Url = token.split('.')[1];
   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
@@ -13,4 +17,9 @@ export const parseJwt = (token) => {
   }).join(''));
 
   return JSON.parse(jsonPayload);
+}
+
+export const getUserId = () => {
+
+  return parseJwt(localStorage.getItem('token'))['id'];
 }

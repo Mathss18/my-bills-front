@@ -3,6 +3,8 @@ import { Card, CardContent, Typography, CardActions } from '@material-ui/core';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import { useEffect, useState } from 'react';
+import { api, getUserId } from '../services/api';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
         marginLeft: theme.spacing(2),
         marginBottom: theme.spacing(2),
-        width: '500px',
+        width: '100%',
         // Transicao 
         transition: theme.transitions.create(['transform', 'color'], {
             duration: theme.transitions.duration.short,
@@ -64,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     card_blue: {
-        width: '800px',
         backgroundImage: 'linear-gradient(315deg, #00B4DB 0%, #0083B0 74%)',
         "&:hover": {
             cursor: 'pointer',
@@ -109,7 +110,18 @@ const useStyles = makeStyles((theme) => ({
 function DashboardCard(props) {
     const classes = useStyles();
     const type = props.type;
+    const [receber, setReceber] = useState(0);
+    const [pagar, setPagar] = useState(0);
+    const [dados_mes, setDadosMes] = useState({receber: 0, pagar: 0});
     console.log(type);
+    useEffect(() => {
+        api.get('/contas/home/'+getUserId())
+            .then((response) => {
+                setReceber(response.data.conta_receber);
+                setPagar(response.data.conta_pagar);
+                setDadosMes(response.data.dados_mes);
+            })
+    }, []);
     if (type === 'green') {
         return (
             <Card className={classes.card + " " + classes.card_green}>
@@ -118,19 +130,19 @@ function DashboardCard(props) {
                     {/*---- Card Header* ----*/}
                     <div className={classes.card_header}>
                         <Typography className={classes.card_title} color="textSecondary" gutterBottom>
-                            Contas a receber hoje
+                            Contas a Receber Hoje
                         </Typography>
                         <TrendingUpIcon className={classes.card_icon} />
                     </div>
                     {/*---- Card Content* ----*/}
                     <Typography className={classes.card_title} variant="h5" component="h2">
-                        <b>R$: 1200,00</b>
+                        <b>{receber.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</b>
                     </Typography>
                 </CardContent>
 
                 {/*---- Card Footer* ----*/}
                 <CardActions className={classes.card_green_footer}>
-                    <a size="small" className={classes.card_title} href="#">Ir para calendario de contas</a>
+                    <a size="small" className={classes.card_title} href="contas">Ir para calendario de contas</a>
                 </CardActions>
 
             </Card>
@@ -144,19 +156,19 @@ function DashboardCard(props) {
                     {/*---- Card Header* ----*/}
                     <div className={classes.card_header}>
                         <Typography className={classes.card_title} color="textSecondary" gutterBottom>
-                            Contas a pagar hoje
+                            Contas a Pagar Hoje
                         </Typography>
                         <TrendingDownIcon className={classes.card_icon} />
                     </div>
                     {/*---- Card Content* ----*/}
                     <Typography className={classes.card_title} variant="h5" component="h2">
-                        <b>R$: 900,00</b>
+                        <b>{pagar.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</b>
                     </Typography>
                 </CardContent>
 
                 {/*---- Card Footer* ----*/}
                 <CardActions className={classes.card_red_footer}>
-                    <a size="small" className={classes.card_title} href="#">Ir para calendario de contas</a>
+                    <a size="small" className={classes.card_title} href="contas">Ir para calendario de contas</a>
                 </CardActions>
 
             </Card>
@@ -170,27 +182,27 @@ function DashboardCard(props) {
                     {/*---- Card Header* ----*/}
                     <div className={classes.card_blue_header}>
                         <Typography className={classes.card_title} color="textSecondary" gutterBottom>
-                            Recebimentos do mês
+                            Recebimentos do Mês
                         </Typography>
                         <Typography className={classes.card_title} color="textSecondary" gutterBottom>
-                            Pagamentos do mês
+                            Pagamentos do Mês
                         </Typography>
                         <BarChartIcon className={classes.card_icon} />
                     </div>
                     {/*---- Card Content* ----*/}
                     <div className={classes.card_blue_content_conteiner}>
                         <Typography className={classes.card_title} variant="h5" component="h2">
-                            <b>R$: 4900,00</b>
+                            <b>{(dados_mes.receber).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</b>
                         </Typography>
                         <Typography className={classes.card_title} variant="h5" component="h2">
-                            <b>R$: 3550,00</b>
+                            <b>{(dados_mes.pagar).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</b>
                         </Typography>
                     </div>
                 </CardContent>
 
                 {/*---- Card Footer* ----*/}
                 <CardActions className={classes.card_blue_footer}>
-                    <a size="small" className={classes.card_title} href="#">Ir para fulxo de caixa</a>
+                    <a size="small" className={classes.card_title} href="contas">Ir para calendario de contas</a>
                 </CardActions>
 
             </Card>

@@ -39,29 +39,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function ListarTransportadoraPage() {
+function RelatorioPage() {
     const classes = useStyles();
     const history = useHistory();
     const [bancos, setBancos] = useState([]);
-    const columns = ["Nome", "Saldo", "Ações"];
+    const columns = ["Nome", "Saldo Atual", 'Saldo Daqui 1 Mês', "Saldo Total Calculado"];
     const data = [];
 
     function handleOnClickEditButton(event, id) {
         history.push("/banco/editar/"+id)
     }
 
-
-
     useEffect(() => {
-        api.get('/bancos/usuarios/'+getUserId())
+        api.get('/relatorio/'+getUserId())
             .then((response) => {
                 response.data.forEach(element => {
                     var array = [
                         element['nome'],
                         element['saldo'],
-                        <>
-                            <EditIcon className={classes.optionsButtons} onClick={(event) => handleOnClickEditButton(event, element['id'])} />
-                        </>
+                        element['saldo_mes'],
+                        element['saldo_previsto']
                         ]
                     data.push(array);
 
@@ -78,9 +75,8 @@ function ListarTransportadoraPage() {
                 {bancos.map((banco, index) => (
                     <h4 key={index} >{banco.nome}</h4>
                 ))}
-                <Button onClick={() => history.push("/banco/novo")} variant="outlined" startIcon={<AddIcon />} className={classes.saveButton}>Adicionar</Button>
                 <MUIDataTable
-                    title={"Lista de Bancos"}
+                    title={"Relatorio dos Bancos"}
                     data={bancos}
                     columns={columns}
                     options={language}
@@ -91,4 +87,4 @@ function ListarTransportadoraPage() {
     );
 }
 
-export default ListarTransportadoraPage;
+export default RelatorioPage;

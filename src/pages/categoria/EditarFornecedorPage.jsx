@@ -30,20 +30,20 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     saveButton: {
+        width: '100%',
         backgroundColor: theme.palette.primary.main,
         color: '#fff',
-        marginTop: theme.spacing(2),
-        marginRight: theme.spacing(2),
+        margin: theme.spacing(2),
         '&:hover': {
             backgroundColor: '#fff',
             color: theme.palette.primary.main,
         },
     },
     cancelButton: {
+        width: '100%',
         backgroundColor: theme.palette.error.main,
         color: '#fff',
-        marginTop: theme.spacing(2),
-        marginRight: theme.spacing(2),
+        margin: theme.spacing(2),
         '&:hover': {
             backgroundColor: '#fff',
             color: theme.palette.error.main,
@@ -158,23 +158,23 @@ function EditarFornecedorPage() {
                     <form onSubmit={handleOnSubmit}>
                         <Grid container spacing={2}>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField variant="outlined" fullWidth label="Nome da categoria" className={classes.input} value={values.descricao} name="descricao" onChange={handleOnChange} />
                             </Grid>
 
-                            <Grid item xs={3}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField type="color" variant="outlined" fullWidth label="Cor da categoria" className={classes.input} value={values.cor} name="cor" onChange={handleOnChange} />
                             </Grid>
                         </Grid>
 
                         <Grid container spacing={2}>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="flex-start">
                                 <Button type="submit" variant="outlined" startIcon={<CheckIcon />} className={classes.saveButton}>Salvar</Button>
                             </Grid>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="center">
                                 <Button variant="outlined" startIcon={<DeleteForeverIcon />} className={classes.cancelButton} onClick={handleDelete} >Excluir</Button>
                             </Grid>
-                            <Grid item>
+                            <Grid container xs={12} sm={4} justifyContent="flex-end">
                                 <Button onClick={() => history.push("/categorias")} variant="outlined" startIcon={<CloseIcon />} className={classes.cancelButton}>Cancelar</Button>
                             </Grid>
                         </Grid>

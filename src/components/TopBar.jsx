@@ -8,6 +8,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useMenu } from "../context/SideMenuContext";
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import logo1 from '../assets/images/my-bills-logo.png';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,20 +44,8 @@ function TopBar() {
                 <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setOpenSideMenu(!openSideMenu)}>
                     <MenuIcon />
                 </IconButton>
-                <Link to='/'>[LOGO]</Link>
+                <img src={logo1} width="50px"/>
                 <div className={classes.grow}></div>
-
-                <IconButton color="inherit" className={classes.iconButton}>
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-
-                <IconButton color="inherit" className={classes.iconButton}>
-                    <Badge badgeContent={10} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
 
                 <Button variant="outlined" className={classes.leaveButton} startIcon={<ExitToAppIcon />} onClick={() => {
                     localStorage.removeItem('token')

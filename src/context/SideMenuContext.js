@@ -4,7 +4,7 @@ import SideMenuCadastroContextProvider from "./SideMenuCadastroContext";
 const SideMenuContext = createContext();
 
 function SideMenuContextProvider({ children }) {
-    const [openMenu, setOpenMenu] = useState(true);
+    const [openMenu, setOpenMenu] = useState(false);
     return (
         <SideMenuContext.Provider value={[ openMenu, setOpenMenu ]}>
             <SideMenuCadastroContextProvider>
