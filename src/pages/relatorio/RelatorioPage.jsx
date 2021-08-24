@@ -4,7 +4,7 @@ import TopBar from "../../components/TopBar";
 import MUIDataTable from "mui-datatables";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import { api, parseJwt } from '../../services/api';
+import { api, parseJwt, getUserId } from '../../services/api';
 import language from '../../config/tableTranslation';
 import { Button } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
@@ -50,10 +50,8 @@ function RelatorioPage() {
         history.push("/banco/editar/"+id)
     }
 
-
-
     useEffect(() => {
-        api.get('/relatorio')
+        api.get('/relatorio/'+getUserId())
             .then((response) => {
                 response.data.forEach(element => {
                     var array = [

@@ -18,3 +18,8 @@ export const parseJwt = (token) => {
 
   return JSON.parse(jsonPayload);
 }
+
+export const getUserId = () => {
+
+  return parseJwt(localStorage.getItem('token'))['id'];
+}

@@ -1,6 +1,6 @@
 import { Bar } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
-import { api } from '../services/api';
+import { api, getUserId } from '../services/api';
 
 const options = {
     maintainAspectRatio: true,
@@ -19,7 +19,7 @@ function DashboardChart(props){
     const [labels, setLabels] = useState([]);
     
     useEffect(() => {
-        api.get('/contas/home/chart')
+        api.get('/contas/home/chart/'+getUserId())
             .then((response) => {
                 console.log(response.data)
                 setReceber(response.data.contas_receber);
@@ -34,13 +34,13 @@ function DashboardChart(props){
         datasets: [{
             categoryPercentage: 0.5,
             barPercentage: 0.8,
-            label: 'Valores recebidos',
+            label: type == 'pagar' ? 'Valores a pagar (Neste mês)' : 'Valores a receber (Neste mês)',
             data: type == 'pagar' ? pagar : receber,
             backgroundColor: [
-                'rgba(54, 162, 235, 0.7)',
+                type == 'pagar' ? 'rgba(179, 18, 23, 0.7)' : 'rgba(0, 153, 51, 0.7)',
             ],
             borderColor: [
-                'rgba(54, 162, 235, 1)',
+                type == 'pagar' ? 'rgba(179, 18, 23, 1)' : 'rgba(0, 153, 51, 1)',
             ],
             borderWidth: 1
         }]

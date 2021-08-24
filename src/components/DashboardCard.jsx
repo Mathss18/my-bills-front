@@ -4,7 +4,7 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import TrendingDownIcon from '@material-ui/icons/TrendingDown';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import { useEffect, useState } from 'react';
-import { api } from '../services/api';
+import { api, getUserId } from '../services/api';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -115,7 +115,7 @@ function DashboardCard(props) {
     const [dados_mes, setDadosMes] = useState({receber: 0, pagar: 0});
     console.log(type);
     useEffect(() => {
-        api.get('/contas/home')
+        api.get('/contas/home/'+getUserId())
             .then((response) => {
                 setReceber(response.data.conta_receber);
                 setPagar(response.data.conta_pagar);
@@ -182,10 +182,10 @@ function DashboardCard(props) {
                     {/*---- Card Header* ----*/}
                     <div className={classes.card_blue_header}>
                         <Typography className={classes.card_title} color="textSecondary" gutterBottom>
-                            Recebimentos Previstos do Mês
+                            Recebimentos do Mês
                         </Typography>
                         <Typography className={classes.card_title} color="textSecondary" gutterBottom>
-                            Pagamentos Previstos do Mês
+                            Pagamentos do Mês
                         </Typography>
                         <BarChartIcon className={classes.card_icon} />
                     </div>

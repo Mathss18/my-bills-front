@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles, Button, Dialog, AppBar, Toolbar, IconButton, Typography, Grid, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { api, parseJwt } from '../../services/api';
+import { api, parseJwt, getUserId } from '../../services/api';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import { useCalendar } from "../../context/CalendarContext";
@@ -137,11 +137,11 @@ export default function CadastrarClientePage() {
     }
 
     useEffect(() => {
-        api.get('/categorias')
+        api.get('/categorias/usuarios/'+getUserId())
             .then((response) => {
                 setCategorias(response.data);
             })
-        api.get('/bancos')
+        api.get('/bancos/usuarios/'+getUserId())
             .then((response) => {
                 setBancos(response.data);
             })

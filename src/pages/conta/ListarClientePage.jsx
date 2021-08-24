@@ -3,12 +3,14 @@ import SideMenu from "../../components/SideMenu";
 import TopBar from "../../components/TopBar";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
-import { api, parseJwt } from '../../services/api';
+import { api, parseJwt, getUserId } from '../../services/api';
 import FullCalendar from '@fullcalendar/react';
 import localePtBr from '@fullcalendar/core/locales/pt-br';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from '@fullcalendar/list'
+import basicDa from '@fullcalendar/list'
 import Swal from 'sweetalert2';
 import CadastrarClientePage from "./CadastrarClientePage";
 import { useCalendar } from "../../context/CalendarContext";
@@ -152,7 +154,7 @@ function ListarClientePage() {
 
 
     useEffect(() => {
-        api.get('/contas')
+        api.get('/contas/usuarios/'+getUserId())
             .then((response) => {
                 const eventos = [];
                 response.data.forEach(element => {
@@ -169,17 +171,25 @@ function ListarClientePage() {
             })
     }, [open]);
 
+    function getInitialView() {
+        if (window.screen.width < 500){
+            return 'dayGridDay'
+        } else {
+            return 'dayGridMonth'
+        }
+    }
+
     return (
         <>
             <TopBar />
             <SideMenu>
                 <FullCalendar
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    initialView="dayGridMonth"
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+                    initialView= {getInitialView()}
                     headerToolbar={{
                         left: 'prev,next',
                         center: 'title',
-                        right: 'dayGridMonth timeGridWeek timeGridDay'
+                        right: 'dayGridMonth dayGridDay'
                       }}
                     events={eventos}
                     dateClick={handleDateClick}

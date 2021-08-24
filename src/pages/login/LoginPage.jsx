@@ -72,8 +72,8 @@ function LoginPage() {
         })
         .catch(error => {
             Swal.fire({
-                title: 'Erro ao cadastrar usuário!',
-                html: error.response.data.mensagem,
+                title: 'Erro ao logar usuário!',
+                html: 'erro no login',
                 position: 'center',
                 icon: 'error',
             })

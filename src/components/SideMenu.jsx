@@ -88,7 +88,9 @@ function SideMenu({ children }) {
 
     // Função que controla se Side Menu esta aberto ou fechado
     const handleDrawerClose = () => {
-        setOpenSideMenu(!openSideMenu);
+        if (window.screen.width < 500){
+            setOpenSideMenu(!openSideMenu)
+        }
     };
 
     // Função que controla se Lista de cadastros esta aberto ou fechado
@@ -119,7 +121,7 @@ function SideMenu({ children }) {
                     aria-labelledby="nested-list-subheader"
                 >
 
-                    <ListItem button onClick={() => history.push("/")}>
+                    <ListItem button onClick={() => {history.push("/"); handleDrawerClose();}}>
                         <ListItemIcon>
                             <HomeIcon />
                         </ListItemIcon>
@@ -136,7 +138,7 @@ function SideMenu({ children }) {
 
                     <Collapse in={openCadastroList} timeout="auto" unmountOnExit>
 
-                        <List onClick={() => history.push("/contas")} disablePadding>
+                        <List onClick={() => {history.push("/contas"); handleDrawerClose();}} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <DateRangeIcon />
@@ -145,7 +147,7 @@ function SideMenu({ children }) {
                             </ListItem>
                         </List>
 
-                        <List onClick={() => history.push("/bancos")} disablePadding>
+                        <List onClick={() => {history.push("/bancos"); handleDrawerClose();}} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <AccountBalanceIcon />
@@ -154,7 +156,7 @@ function SideMenu({ children }) {
                             </ListItem>
                         </List>
 
-                        <List onClick={() => history.push("/categorias")} disablePadding>
+                        <List onClick={() => {history.push("/categorias"); handleDrawerClose();}} disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <LocationOnIcon />
@@ -165,7 +167,7 @@ function SideMenu({ children }) {
 
                     </Collapse>
 
-                    <ListItem button onClick={() => history.push("/relatorio")}>
+                    <ListItem button onClick={() => {history.push("/relatorio"); handleDrawerClose();}}>
                         <ListItemIcon>
                             <AssignmentIcon />
                         </ListItemIcon>
