@@ -85,7 +85,7 @@ export default function CadastrarClientePage() {
                 .catch((error) => {
                     Swal.fire({
                         title: 'Erro ao deletar!',
-                        html: error.response.data.mensagem,
+                        html: 'Erro no banco de dados',
                         position: 'center',
                         icon: 'error',
                         timer: 10000,
